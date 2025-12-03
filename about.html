@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>日本旅遊精選 | Japan Travel</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <nav>
+            <div class="logo">🇯🇵 日本旅遊趣</div>
+            <ul class="nav-links">
+                <li><a href="index.html">首頁</a></li>
+                <li><a href="attractions.html">熱門景點</a></li>
+                <li><a href="about.html">關於站長</a></li>
+                <li><a href="contact.html">聯絡諮詢</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <h1>關於站長</h1>
+            <p>認識這個網站背後的創作者</p>
+        </section>
+        
+        <section class="content" style="max-width: 800px; margin: 0 auto;">
+            <h2>個人簡介</h2>
+            <p>你好！我是熱愛日本旅遊的站長。這個網站是為了分享日本的美好而建立的。下方是我的詳細履歷，資料是從 XML 檔案動態讀取的。</p>
+            
+            <div id="resume-container" style="margin-top: 30px; border: 1px solid #ddd; padding: 20px; border-radius: 8px; background-color: #fafafa;">
+                <p id="loading-text">正在讀取 resume.xml 資料...</p>
+            </div>
+
+        </section>
+    </main>
+
+    <script>
+        // 當網頁載入完成後，自動執行
+        document.addEventListener("DOMContentLoaded", function() {
+            fetch('resume.xml')
+                .then(response => response.text())
+                .then(data => {
+                    let parser = new DOMParser();
+                    let xmlDoc = parser.parseFromString(data, "text/xml");
+                    
+                    // 抓取 XML 資料
+                    let name = xmlDoc.getElementsByTagName("name")[0].childNodes[0].nodeValue;
+                    let title = xmlDoc.getElementsByTagName("title")[0].childNodes[0].nodeValue;
+                    let email = xmlDoc.getElementsByTagName("email")[0].childNodes[0].nodeValue;
+                    
+                    // 建立 HTML 內容
+                    let htmlContent = `
+                        <h3 style="color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px;">${name}</h3>
+                        <p><strong>職稱：</strong> ${title}</p>
+                        <p><strong>Email：</strong> ${email}</p>
+                        <hr style="margin: 20px 0; border: 0; border-top: 1px solid #ccc;">
+                        
+                        <h4>技能專長</h4>
+                        <ul style="list-style-type: square; margin-left: 20px; margin-bottom: 20px;">
+                    `;
+                    
+                    // 迴圈抓取技能
+                    let skills = xmlDoc.getElementsByTagName("skill");
+                    for (let i = 0; i < skills.length; i++) {
+                        htmlContent += `<li>${skills[i].childNodes[0].nodeValue}</li>`;
+                    }
+                    htmlContent += `</ul><h4>工作經歷</h4>`;
+
+                    // 迴圈抓取經歷
+                    let jobs = xmlDoc.getElementsByTagName("job");
+                    for (let i = 0; i < jobs.length; i++) {
+                        let pos = jobs[i].getElementsByTagName("position")[0].childNodes[0].nodeValue;
+                        let com = jobs[i].getElementsByTagName("company")[0].childNodes[0].nodeValue;
+                        let desc = jobs[i].getElementsByTagName("description")[0].childNodes[0].nodeValue;
+                        
+                        htmlContent += `
+                            <div style="margin-bottom: 15px;">
+                                <strong>${pos}</strong> at ${com}<br>
+                                <span style="font-size: 0.9em; color: #666;">${desc}</span>
+                            </div>
+                        `;
+                    }
+
+                    // 寫入網頁
+                    document.getElementById("resume-container").innerHTML = htmlContent;
+                })
+                .catch(error => {
+                    document.getElementById("resume-container").innerHTML = "<p style='color:red;'>無法讀取 XML 檔案，請確保您是使用 Live Server 開啟網頁。</p>";
+                    console.error('Error:', error);
+                });
+        });
+    </script>
+
+    <footer>
+        <p>&copy; 2025 日本旅遊趣. All Rights Reserved.</p>
+    </footer>
+
+</body>
+</html>

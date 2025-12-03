@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resume>
+    <profile>
+        <name>李亮廷</name>
+        <title>網站管理員 &amp; 旅遊愛好者</title>
+        <email>traveler@example.com</email>
+        <location>台灣, 台北市</location>
+    </profile>
+    <skills>
+        <skill>HTML5 / CSS3</skill>
+        <skill>JavaScript 基礎</skill>
+        <skill>日本旅遊規劃</skill>
+        <skill>攝影</skill>
+    </skills>
+    <experience>
+        <job>
+            <position>日本旅遊特派員</position>
+            <company>Japan Travel Blog</company>
+            <year>2023 - 至今</year>
+            <description>負責撰寫關東地區旅遊攻略，拍攝景點照片。</description>
+        </job>
+        <job>
+            <position>網頁設計實習生</position>
+            <company>某某科技公司</company>
+            <year>2022 - 2023</year>
+            <description>學習前端網頁技術，協助維護公司網站。</description>
+        </job>
+    </experience>
+    <education>
+        <school>國立某某大學</school>
+        <major>資訊管理學系</major>
+        <year>2021 - 2025</year>
+    </education>
+</resume>
